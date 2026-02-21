@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/D:/Code/PRJ/Cham_bai/SE182622/SE182622/SE182622/web/login.html</file>
+            <file>file:/D:/Code/PRJ/Cham_bai/SE182622/SE182622/SE182622/web/login.jsp</file>
+            <file>file:/D:/Code/PRJ/Cham_bai/SE182622/SE182622/SE182622/src/java/pe/controllers/LoginServlet.java</file>
+            <file>file:/D:/Code/PRJ/Cham_bai/SE182622/SE182622/SE182622/src/java/pe/utils/DbUtils.java</file>
+            <file>file:/D:/Code/PRJ/Cham_bai/SE182622/SE182622/SE182622/web/welcome.jsp</file>
+            <file>file:/D:/Code/PRJ/Cham_bai/SE182622/SE182622/SE182622/web/search.html</file>
+            <file>file:/D:/Code/PRJ/Cham_bai/SE182622/SE182622/SE182622/src/java/pe/controllers/MainController.java</file>
+            <file>file:/D:/Code/PRJ/Cham_bai/SE182622/SE182622/SE182622/src/java/pe/model/prjdtb/RegistrationDto.java</file>
+            <file>file:/D:/Code/PRJ/Cham_bai/SE182622/SE182622/SE182622/src/java/pe/model/prjdtb/RegistrationDao.java</file>
+            <file>file:/D:/Code/PRJ/Cham_bai/SE182622/SE182622/SE182622/web/search.jsp</file>
+            <file>file:/D:/Code/PRJ/Cham_bai/SE182622/SE182622/SE182622/src/java/pe/controllers/SearchlastnameServlet.java</file>
+        </group>
+    </open-files>
+</project-private>
