@@ -32,6 +32,7 @@
                             <th>Password</th>
                             <th>Full Name</th>
                             <th>Role</th>
+                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -51,6 +52,14 @@
                             </td>
                             <td>
                                 ${dto.role}
+                            </td>
+                            <td>
+                                <c:url var="deleteLink" value="MainController">
+                                    <c:param name="action" value="delete" />
+                                    <c:param name="pk" value="${dto.username}" />
+                                    <c:param name="lastSearchValue" value="${searchValue}" />
+                                </c:url>
+                                <a href="${deleteLink}">Delete</a>
                             </td>
                         </tr>
                         </c:forEach>

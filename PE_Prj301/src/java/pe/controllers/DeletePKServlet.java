@@ -1,30 +1,26 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 package pe.controllers;
 
 import java.io.IOException;
-import javax.servlet.RequestDispatcher;
+import java.io.PrintWriter;
+import java.sql.SQLException;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import pe.model.registration.RegistrationDAO;
 
 /**
  *
- * @author Computing Fundamental - HCM Campus
+ * @author PTAK
  */
-public class MainController extends HttpServlet {
-
-// Sua o day
-//    private static final String WELCOME="login.jsp";
-    private static final String WELCOME="login.html";
-    private static final String LOGIN_CONTROLLER = "LoginServlet";
-    private static final String SEARCH_LAST_NAME_CONTROLLER = "SearchLastnameServlet";
-    private static final String DELETE_PK_CONTROLLER = "DeletePKServlet";
-    
+@WebServlet(name = "DeletePKServlet", urlPatterns = {"/DeletePKServlet"})
+public class DeletePKServlet extends HttpServlet {
+    public final String ERROR_PAGE = "error.html";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -37,33 +33,32 @@ public class MainController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url= WELCOME;
-        String action= request.getParameter("action");
-        try {
-            if (action == null) {
-                //do nothing
-            } else if (action.equals("Login")) { //user clicked Login button
-                url = LOGIN_CONTROLLER;
-            } else {
-                switch (action) {
-                    case "Search":
-                        url = SEARCH_LAST_NAME_CONTROLLER;
-                        break;
-                    case "delete":
-                        url = DELETE_PK_CONTROLLER;
-                        break;
-                }//checking which button user clicked
-            }//end other features
-            //-----            your code here   --------------------------------
-            
-            //-----            your code here   --------------------------------
-        } catch (Exception e) {
-            log("error at MainController: "+ e.toString());
-        }finally{
-// Sua o day
-//            request.getRequestDispatcher(url).forward(request, response);
-            RequestDispatcher rd = request.getRequestDispatcher(url);
-            rd.forward(request, response);
+        // 1. controller get all user's information
+        String username = request.getParameter("pk");
+        String lastSearchValue = request.getParameter("lastSearchValue");
+        String url = ERROR_PAGE;
+        
+        try  {
+//            2. controller call method
+//            2.1 Controller initiaates DAO object
+            RegistrationDAO dao = new RegistrationDAO();
+//            2.2 Controller call methods from DAO Object
+            boolean result = dao.deleteAccount(username);
+            if(result){
+                //refresh data grid
+                //--> call previous function again
+                //==> user URL Rewriting
+                url = "MainController"
+                        + "?action=Search"
+                        + "&txtSearchValue=" + lastSearchValue;
+            }
+//            3. Controller processed result
+        }catch(SQLException ex){
+            log("DeletePKServlet _ SQL" + ex.getMessage());
+        }catch(ClassNotFoundException ex){
+            log("DeletePKServlet _ ClassNotFound" + ex.getMessage());
+        } finally {
+            response.sendRedirect(url);
         }
     }
 
