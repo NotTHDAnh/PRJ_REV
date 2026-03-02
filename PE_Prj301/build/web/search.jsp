@@ -33,25 +33,31 @@
                             <th>Full Name</th>
                             <th>Role</th>
                             <th>Delete</th>
+                           <th>Update</th>
                         </tr>
                     </thead>
                     <tbody>
                         <c:forEach items="${result}" var="dto" varStatus="Counter">
+                        <form action="MainController" method="POST">
                             <tr>
                                 <td>
                                 ${Counter.count}
                             </td>
                             <td>
                                 ${dto.username}
+                                <input type="hidden" name="txtUserName" value="${dto.username}" />
                             </td>
                             <td>
-                                ${dto.password}
+                                <input type="text" name="txtPassword" value="${dto.password}" />
                             </td>
                             <td>
                                 ${dto.fullName}
                             </td>
                             <td>
-                                ${dto.role}
+                                <input type="checkbox" name="chckAdmin" value="ON"
+                                       <c:if test = "${dto.role}">
+                                           checked="checked"
+                                       </c:if>>
                             </td>
                             <td>
                                 <c:url var="deleteLink" value="MainController">
@@ -61,7 +67,13 @@
                                 </c:url>
                                 <a href="${deleteLink}">Delete</a>
                             </td>
+                            <td>
+                                <input type="submit" value="Update" name="action" />
+                                <input type="hidden" name="lastSearchValue" value="${searchValue}" />
+                            </td>
                         </tr>
+                        </form>
+
                         </c:forEach>
                     </tbody>
                 </table>

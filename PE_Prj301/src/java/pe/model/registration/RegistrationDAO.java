@@ -146,4 +146,85 @@ public class RegistrationDAO implements Serializable {
 
         }
     }
+    
+    // update password and role based on primary key
+    public boolean updatePassRole(String username,String password, boolean role)
+           throws SQLException, ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        boolean result = false;
+
+        try {
+            //1. Model connect Database
+            con = DbUtils.getConnection();
+            if (con != null) {
+                //2. Create the SQL String
+                String sql = "Update Registration "
+                        + "set password=?, isAdmin=? "
+                        + "Where username=?";
+                //3. Create statement Object
+                stm = con.prepareStatement(sql);
+                stm.setString(1, password);
+                stm.setBoolean(2, role);
+                stm.setString(3, username);
+                //4. Excute Statement Object
+                int effectedRows = stm.executeUpdate();
+                //5. Process result
+                if(effectedRows > 0) {
+                    result = true;
+                }
+    
+            } // connection is available
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return result;
+
+    }
+    
+    public boolean createAccount(RegistrationDTO account)
+                   throws SQLException, ClassNotFoundException {
+        Connection con = null;
+        PreparedStatement stm = null;
+        boolean result = false;
+
+        try {
+            //1. Model connect Database
+            con = DbUtils.getConnection();
+            if (con != null) {
+                //2. Create the SQL String
+                String sql = "Insert Into Registration("
+                        + "username, password, lastname, isAdmin"
+                        + ") Values ("
+                        + "?,?,?,?"
+                        + ")";
+                //3. Create statement Object
+                stm = con.prepareStatement(sql);
+                stm.setString(1, account.getUsername());
+                stm.setString(2, account.getPassword());
+                stm.setString(3, account.getFullName());
+                stm.setBoolean(4, account.isRole());
+                //4. Excute Statement Object
+                int effectedRows = stm.executeUpdate();
+                //5. Process result
+                if(effectedRows > 0) {
+                    result = true;
+                }
+    
+            } // connection is available
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+        return result;
+    }
 }
