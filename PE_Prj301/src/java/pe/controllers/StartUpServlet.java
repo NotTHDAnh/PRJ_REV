@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,12 +18,12 @@ import pe.model.registration.RegistrationDAO;
 
 /**
  *
- * @author ADMIN
+ * @author PTAK
  */
-public class LoginServlet extends HttpServlet {
-    private final String SEARCH_PAGE = "search.html";
-    private final String INVALID_PAGE = "invalid.html";
-    
+@WebServlet(name = "StartUpServlet", urlPatterns = {"/StartUpServlet"})
+public class StartUpServlet extends HttpServlet {
+    private static final String LOGIN_PAGE = "login.html";
+    private static final String SEARCH_PAGE = "search.jsp";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -35,37 +36,39 @@ public class LoginServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        String url = INVALID_PAGE;
+        String url = LOGIN_PAGE;
         
-//      1. Get all user's information.
-        String username = request.getParameter("txtUsername");
-        String password = request.getParameter("txtPassword");
-        
-        try {
-//          2. Controller calls Model
-//              2.1 Controller intializes DAO Object (new)
-                RegistrationDAO dao = new RegistrationDAO();
-//              2.2 Controller calls methods of DAO object
+        try  {
+            //1. check if cookie is existed or not
+            //1.1 get all cookie
+            Cookie[] cookies = request.getCookies();
+            //1.2 check existed cookies
+            if(cookies != null){
+                //2. get username, pasword from cookies
+                Cookie newestCookie = cookies[cookies.length - 1];
+                String username = newestCookie.getName();
+                String password = newestCookie.getValue();
+                //3. contorller calls method of model
+                //3.1 controller new dao object
+                RegistrationDAO  dao = new RegistrationDAO();
+                //3.2 controller call methods from dao object
                 boolean result = dao.checkLogin(username, password);
-//          3. Controller processes results
-            if (result) {
-                url = SEARCH_PAGE;
-                // write cookie
-                Cookie cookie = new Cookie(username, password);
-                cookie.setMaxAge(60*4);
-                response.addCookie(cookie);
-            }//username and password are matched
-// Dung try catch ma khong dung throw vi processRequest la ham ao duoc goi bang cac ham do.... ne khong duoc them sua xoa
-        } catch (SQLException ex) {
-            log("LoginServlet _ SQL " + ex.getMessage());
-        } catch (ClassNotFoundException ex) {
-            log("LoginServlet _ Class Not Found " + ex.getMessage());
-        } finally {
+                //4. controllers processes result
+                if(result){
+                    url = SEARCH_PAGE;
+                }
+            }//no first time
+        }
+        catch(SQLException ex){
+            log("StartUpServlet _ SQL " + ex.getMessage());
+        }
+        catch(ClassNotFoundException ex){
+            log("StartUpServlet _ Class Not Found " + ex.getMessage());
+        }
+        finally{
+            // dung forward hay sendredirect cung duoc
             RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
-//            response.sendRedirect(url);// 2 dong tren moi dung, dong nay sai vi User thay duoc thang cuoi cung. Chi duoc thay thang dau tien
-            out.close();
         }
     }
 

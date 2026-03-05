@@ -26,6 +26,7 @@ public class MainController extends HttpServlet {
     private static final String DELETE_PK_CONTROLLER = "DeletePKServlet";
     private static final String UPDATE_PASSROLE_CONTROLLER = "UpdatePassRoleServlet";
     private static final String CREATE_ACCOUNT_CONTROLLER = "CreateAccountServlet";
+    private static final String STARTUP_CONTROLLER = "StartUpServlet";
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,6 +45,7 @@ public class MainController extends HttpServlet {
         try {
             if (action == null) {
                 //do nothing
+                url = STARTUP_CONTROLLER;
             } else if (action.equals("Login")) { //user clicked Login button
                 url = LOGIN_CONTROLLER;
             } else {
