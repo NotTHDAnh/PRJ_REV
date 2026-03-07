@@ -20,7 +20,7 @@
             Search Value <input type="text" name="txtSearchValue" value="${param.txtSearchValue}" /> <br/>
             <input type="submit" value="Search" name="action" />
         </form><br/>
-        <%
+        <%--
             Cookie[] cookie = request.getCookies();
             if(cookie != null){
                 Cookie newesstCookie = cookie[cookie.length - 1];
@@ -32,7 +32,7 @@
                 </font>
                 <%
             }
-        %>
+        --%>
         <c:set var="searchValue" value="${param.txtSearchValue}" />
         <c:if test="${not empty searchValue}">
             <c:set var="result" value="${requestScope.SEARCH_RESULT}"/>
